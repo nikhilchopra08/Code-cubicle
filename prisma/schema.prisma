@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          String       @id @default(uuid()) // Changed to String
+  email       String    @unique
+  password_hash String // Store a hashed password
+  name        String?
+  apiKeys     ApiKey[]  // Relation to API keys
+  contexts    Context[] // Relation to contexts
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model ApiKey {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   // Changed to String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Context {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   // Changed to String
+  name      String   // Name for the context
+  content   String   // Context content for the chatbot
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
