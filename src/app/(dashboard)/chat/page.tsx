@@ -48,14 +48,11 @@ const Chatbot = () => {
 
   return (
     <div className="min-h-screen grid grid-cols-3  bg-gray-100 ">
-      <div className=' col-start-1 '>
-      <SidebarMenu />
-
-      </div>
+      
       <div className="bg-black shadow-lg col-start-3   p-6 max-w-lg w-full">
-      <div className="mt-8 pb-20 overflow-hidden">
+      <div className="mt-8 pb-10 overflow-hidden">
           <h2 className="text-xl font-bold text-white mb-4">Chat History</h2>
-          <div className="space-y-4">
+          <div className="space-y-1 max-h-36 overflow-y-auto">
             {history.map((entry, index) => (
               <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-sm">
                 <div className="text-sm font-medium text-gray-300">Question:</div>
