@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { div } from 'framer-motion/client';
 
 interface ApiKey {
   id: number;
@@ -83,36 +84,39 @@ const ApiKeysPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">API Keys and Contexts</h1>
+  <div className='flex justify-center items-center h-screen w-full'>
+    <div className=" mx-auto p-4 flex justify-evenly w-full">
 
-      <form onSubmit={handleSubmit} className="mb-6">
+      <form onSubmit={handleSubmit} className="mb-6 ">
+        <h1 className="text-3xl font-bold mb-4">API Keys and Contexts</h1>
         <h2 className="text-xl font-semibold mb-2">Add New Context</h2>
         <div className="mb-4">
-          <label htmlFor="contextName" className="block text-sm font-medium text-gray-700">Context Name</label>
+          <label htmlFor="contextName" className="block text-sm font-medium ">Context Name</label>
           <input
+            placeholder='What is the name?'
             id="contextName"
             type="text"
             value={contextName}
             onChange={(e) => setContextName(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-2 block w-full text-black border border-gray-300 rounded-md shadow-sm"
             required
           />
         </div>
+          <label htmlFor="contextContent" className="block text-sm font-medium ">Context Content</label>
         <div className="mb-4">
-          <label htmlFor="contextContent" className="block text-sm font-medium text-gray-700">Context Content</label>
           <textarea
+            placeholder='Please enter the required context'
             id="contextContent"
             value={contextContent}
             onChange={(e) => setContextContent(e.target.value)}
             rows={4}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 block p-2 w-full border text-gray-900 border-gray-300 rounded-md shadow-sm"
             required
           ></textarea>
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          className="px-4 py-2 bg-blue-500 text-b rounded-md hover:bg-blue-600"
         >
           Add Context
         </button>
@@ -122,7 +126,7 @@ const ApiKeysPage = () => {
         {apiKeys.map(apiKey => (
           <div key={apiKey.id} className="border p-4 rounded shadow">
             <h2 className="text-xl font-semibold mb-2">API Key</h2>
-            <p className="bg-gray-100 p-2 rounded mb-4">{apiKey.key}</p>
+            <p className="bg-gray-100 text-black p-2 rounded mb-4">{apiKey.key}</p>
             
             <button
               className="text-blue-500 hover:underline"
@@ -145,6 +149,7 @@ const ApiKeysPage = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
