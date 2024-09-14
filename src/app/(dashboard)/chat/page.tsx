@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import { SidebarMenu } from '@/components/sidebar_menu';
 
 interface ChatEntry {
   question: string;
@@ -46,8 +47,25 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="bg-black shadow-lg rounded-lg p-6 max-w-lg w-full">
+    <div className="min-h-screen grid grid-cols-3  bg-gray-100 ">
+      <div className=' col-start-1 '>
+      <SidebarMenu />
+
+      </div>
+      <div className="bg-black shadow-lg col-start-3   p-6 max-w-lg w-full">
+      <div className="mt-8 pb-20 overflow-hidden">
+          <h2 className="text-xl font-bold text-white mb-4">Chat History</h2>
+          <div className="space-y-4">
+            {history.map((entry, index) => (
+              <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-sm">
+                <div className="text-sm font-medium text-gray-300">Question:</div>
+                <p className="text-white mb-2">{entry.question}</p>
+                <div className="text-sm font-medium text-gray-300">Answer:</div>
+                <p className="text-white">{entry.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
         <h1 className="text-2xl font-bold mb-4 text-center text-white">Question Answering Chatbot</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -56,7 +74,7 @@ const Chatbot = () => {
               type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 text-slate-900 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Ask a question..."
               required
             />
@@ -90,19 +108,7 @@ const Chatbot = () => {
           </div>
         )}
 
-        <div className="mt-8">
-          <h2 className="text-xl font-bold text-white mb-4">Chat History</h2>
-          <div className="space-y-4">
-            {history.map((entry, index) => (
-              <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-sm">
-                <div className="text-sm font-medium text-gray-300">Question:</div>
-                <p className="text-white mb-2">{entry.question}</p>
-                <div className="text-sm font-medium text-gray-300">Answer:</div>
-                <p className="text-white">{entry.answer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        
       </div>
     </div>
   );
