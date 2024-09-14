@@ -1,10 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
+import prismadb from '@/lib/prismadb'; // Import your Prisma client instance
 
-// Handle POST requests
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    // Extract userId from the URL path
+    const url = new URL(req.url);
+    const userId = url.pathname.split('/')[2]; // Extract userId from path
 
+    if (!userId) {
+      return NextResponse.json({ message: 'User ID is required' }, { status: 401 });
+    }
+
+    // Verify if the user exists
+    const user = await prismadb.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return NextResponse.json({ message: 'User not found or not authorized' }, { status: 403 });
+    }
+
+    const body = await req.json();
     const { question, context } = body;
 
     if (!question || !context) {
