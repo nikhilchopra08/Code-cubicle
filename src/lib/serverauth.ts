@@ -1,30 +1,26 @@
-import { NextApiRequest } from "next";
-import { getSession } from "next-auth/react";
+import { NextRequest } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { AuthOptions } from './auth';
+import prismadb from '@/lib/prismadb';
 
-import prismadb from "@/lib/prismadb"
-import { getServerSession } from "next-auth";
-import { AuthOptions } from "./auth";
+const serverAuth = async (req: NextRequest) => {
+    const session = await getServerSession({ req, ...AuthOptions });
 
-const serverAuth = async (req : NextApiRequest) => {
-    const session = await getServerSession(AuthOptions);
-
-    console.log(session)
-
-    if(!session?.user?.email){
-        throw new Error("Not signned In");
+    if (!session?.user?.email) {
+        throw new Error("Not signed in");
     }
 
     const currentUser = await prismadb.user.findUnique({
-        where:{
-            email : session.user.email
+        where: {
+            email: session.user.email
         }
     });
 
-    if(!currentUser){
-        throw new Error("Not found");
+    if (!currentUser) {
+        throw new Error("User not found");
     }
 
-    return {currentUser};
+    return { currentUser };
 }
 
 export default serverAuth;

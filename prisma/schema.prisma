@@ -19,13 +19,14 @@ model User {
 }
 
 model ApiKey {
-  id        Int      @id @default(autoincrement())
-  key       String   @unique
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   // Changed to String
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  key       String    @unique
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String    // Changed to String
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  contexts  Context[] // Relationship to Context
 }
 
 model Context {
@@ -36,4 +37,6 @@ model Context {
   content   String   // Context content for the chatbot
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  apiKey    ApiKey   @relation(fields: [apiKeyId], references: [id])
+  apiKeyId  Int      // Foreign key for the ApiKey
 }

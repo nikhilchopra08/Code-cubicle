@@ -5,17 +5,8 @@ import serverAuth from '@/lib/serverauth';
 
 export async function POST(req: NextRequest) {
     try {
-        // Extract userId from URL parameters
-        const url = new URL(req.url);
-        const userId = url.pathname.split('/')[2]; // Assuming the URL is `/api/[userId]/api-keys`
-
         // Authenticate user and get currentUser
         const { currentUser } = await serverAuth(req);
-
-        // Check if the authenticated user matches the userId from the URL
-        if (currentUser.id !== userId) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-        }
 
         // Generate a unique API key
         const apiKey = uuidv4();
@@ -28,7 +19,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Context name and content are required" }, { status: 400 });
         }
 
-        // Create the API key and context in the database
+        // Create the API key
         const newApiKey = await prismadb.apiKey.create({
             data: {
                 key: apiKey,
@@ -36,48 +27,41 @@ export async function POST(req: NextRequest) {
             },
         });
 
+        // Create the context and associate it with the API key
         const newContext = await prismadb.context.create({
             data: {
                 userId: currentUser.id,
                 name: contextName,
                 content: contextContent,
+                apiKeyId: newApiKey.id, // Associate context with the new API key
             },
         });
 
         return NextResponse.json({ apiKey: newApiKey, context: newContext }, { status: 201 });
     } catch (e) {
         console.error("Error during API key and context creation:", e);
-        return NextResponse.json({ error: "Error generating API key or saving context", details: e.message }, { status: 500 });
+        return NextResponse.json({ error: "Error generating API key or saving context" }, { status: 500 });
     }
 }
 
+
 export async function GET(req: NextRequest) {
     try {
-        // Extract userId from URL parameters
-        const url = new URL(req.url);
-        const userId = url.pathname.split('/')[2]; // Assuming the URL is `/api/[userId]/api-keys`
-
         // Authenticate user and get currentUser
-        // const { currentUser } = await serverAuth(req);
+        const { currentUser } = await serverAuth(req);
 
-        // Check if the authenticated user matches the userId from the URL
-        // if (currentUser.id !== userId) {
-        //     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-        // }
+        // Fetch all API keys and their associated contexts for the user
+        const apiKeys = await prismadb.apiKey.findMany({
+            where: { userId: currentUser.id },
+        });
 
-        // Fetch all API keys and contexts for the user
-        const [apiKeys, contexts] = await Promise.all([
-            prismadb.apiKey.findMany({
-                where: { userId: userId },
-            }),
-            prismadb.context.findMany({
-                where: { userId: userId },
-            }),
-        ]);
+        const contexts = await prismadb.context.findMany({
+            where: { userId: currentUser.id },
+        });
 
         return NextResponse.json({ apiKeys, contexts }, { status: 200 });
     } catch (e) {
         console.error("Error retrieving API keys and contexts:", e);
-        return NextResponse.json({ error: "Error retrieving API keys or contexts", details: e.message }, { status: 500 });
+        return NextResponse.json({ error: "Error retrieving API keys or contexts" }, { status: 500 });
     }
 }
