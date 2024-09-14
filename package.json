@@ -10,15 +10,21 @@
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@tabler/icons-react": "^3.16.0",
     "@types/bcrypt": "^5.0.2",
     "@types/uuid": "^10.0.0",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.5.4",
     "next": "14.2.11",
     "next-auth": "^4.24.7",
     "node-fetch": "^3.3.2",
     "react": "^18",
     "react-dom": "^18",
+    "sonner": "^1.5.0",
+    "tailwind-merge": "^2.5.2",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
