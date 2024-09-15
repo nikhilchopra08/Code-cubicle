@@ -47,7 +47,7 @@ const Chatbot = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="bg-black shadow-lg rounded-lg p-6 max-w-lg w-full">
+      <div className="bg-neutral-800 shadow-gray-700  shadow-xl rounded-lg p-6 max-w-lg w-full">
         <h1 className="text-2xl font-bold mb-4 text-center text-white">Question Answering Chatbot</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -56,7 +56,7 @@ const Chatbot = () => {
               type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 text-black block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Ask a question..."
               required
             />
@@ -66,7 +66,7 @@ const Chatbot = () => {
             <textarea
               value={context}
               onChange={(e) => setContext(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border text-black border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Provide context for the question..."
               required
             />
@@ -74,7 +74,7 @@ const Chatbot = () => {
           <div>
             <button
               type="submit"
-              className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+              className="w-full bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700"
             >
               {loading ? 'Fetching Answer...' : 'Get Answer'}
             </button>

@@ -61,14 +61,14 @@ export function SidebarMenu() {
           <div className="w-full flex justify-center space-x-8 overflow-y-auto overflow-x-hidden"> 
             <SidebarLink link={{
               label: "Login",
-              href:'/login',
+              href:'/auth',
               icon: ('')
             }}
             className="w-fit  px-4 rounded-xl p-3 bg-slate-700 text-white"
             />
             <SidebarLink link={{
               label: "Signup",
-              href:'/signup',
+              href:'/auth',
               icon: ('')
             }}
             className="w-fit px-4 rounded-xl p-3 bg-slate-700 text-white"
@@ -93,7 +93,7 @@ export const Logo = () => {
         animate={{ opacity: 1 }}
         className="font-medium  text-black dark:text-white whitespace-pre"
       >
-        ChatBot
+        APIsh
       </motion.span>
     </Link>
   );
